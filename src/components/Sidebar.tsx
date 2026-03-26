@@ -32,7 +32,7 @@ export default function Sidebar({
           {t.categories}
         </h2>
         <motion.button
-          whileHover={{ scale: 1.1, rotate: 90 }}
+          whileHover={{ scale: 1.1, rotate: 90, transition: { type: "spring", stiffness: 200, damping: 15 } }}
           whileTap={{ scale: 0.9 }}
           onClick={() => setIsAdding(true)}
           className="text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 bg-slate-100/50 dark:bg-slate-800/50 hover:bg-brand-50 dark:hover:bg-brand-900/30 p-1.5 rounded-lg transition-colors shadow-sm"

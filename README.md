@@ -1,73 +1,69 @@
-# React + TypeScript + Vite
+# 🪄 AI Prompt Manager | 提示词管家
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<div align="center">
 
-Currently, two official plugins are available:
+A beautiful, local-first web application designed to help you organize and manage your AI prompts. Stop losing your best prompts in random notes!
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+**提示词管家** 是一个漂亮且完全本地化的前端工具。它可以帮你把零碎的 AI 提示词整理得井井有条。
 
-## React Compiler
+[English](#english-documentation) | [中文说明](#中文说明)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+</div>
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## English Documentation
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### The Philosophy
+In the era of AI agents, not every prompt needs to be engineered into a complex "Skill" or automated workflow. Many times, we just have simple, highly effective templates that we use every single day. **This project was born precisely for this reason: to provide a proper, dedicated home for these everyday essential prompts.**
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### What is this?
+AI Prompt Manager is a modern web application built for heavy AI users. It allows you to save, categorize, and quickly copy your frequently used prompts. 
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+What makes it special is its **variable feature**. You can put `{{something}}` in your text, and the app will turn it into a tiny input box. Fill in the blanks, click copy, and boom—your prompt is ready!
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+**Best of all: Privacy First.**
+Your data never leaves your computer. The app uses your browser's File System Access API to read and write directly to a local `.json` file on your hard drive. Once you select the file, the browser remembers it for your next visit!
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Features
+- 🚀 **Lightning Fast:** Built with Vite and React.
+- 💅 **Gorgeous UI:** Glassmorphism, smooth spring animations, and an auto-adapting Dark Mode.
+- 🧩 **Magic Variables:** Write `{{topic}}` in your prompt to create fillable blanks.
+- 💾 **Local Storage:** Your prompts are saved as a transparent `.json` file wherever you want.
+- 🌍 **Bilingual:** Native English and Simplified Chinese support.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### How to use
+1. Make sure you have Node.js installed.
+2. Clone or open this folder in terminal.
+3. Run `npm install`
+4. Run `npm run dev`
+5. Open `http://localhost:3006` in your browser.
+
+---
+
+## 中文说明
+
+### 初衷与理念
+在各类 AI Agent 大行其道的今天，**有些提示词可能并不至于上升到编写成一个复杂 “Skill”（技能/工作流）的级别，但它们在日常工作中却极为常用。** 这正是本项目诞生的原因——为这些高频使用的、简单却不可或缺的提示词，提供一个妥善保存和随时调用的“家”。
+
+### 这是什么？
+**提示词管家** 是为高频 AI 用户打造的现代化网页工具。它可以帮你分门别类地保存常用提示词，并在需要时一键复制。
+
+它的杀手锏是 **“魔法变量”** 功能。只要你在文本里写上 `{{主题}}` 或者 `{{language}}`，它就会在界面上变成一个精美的小填空框。把空填好，点击复制，一气呵成！
+
+**最重要的是：绝对的隐私安全。**
+你的数据永远不会上传到任何服务器。网页利用现代浏览器的本地文件访问技术，直接读取和修改你电脑里的一个 `.json` 格式文件。选过一次文件之后，浏览器就会自动记住它，下次打开网页点一下就能继续用。
+
+### 核心功能
+- 🚀 **极速启动**：基于 Vite 和 React 构建，轻量无负担。
+- 💅 **惊艳的界面**：毛玻璃质感、舒适丝滑的弹性动画、以及自动跟随系统的日夜间模式。
+- 🧩 **魔法变量**：在提示词中加入 `{{变量名}}` 即可生成美观的填空框。
+- 💾 **纯本地保存**：你的心血提示词会以 `.json` 文件的形式保存在你指定的任意位置，安全可控。
+- 🌍 **原生双语**：自带中英双语，并可一键无缝切换。
+
+### 运行指南
+1. 请确保你的电脑安装了 Node.js。
+2. 在终端（Terminal）中打开这个文件夹。
+3. 运行命令 `npm install` 下载依赖。
+4. 运行命令 `npm run dev` 启动。
+5. 在浏览器中打开 `http://localhost:3006` 开始体验！

@@ -142,7 +142,7 @@ function AppContent() {
           key="app"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
+          transition={{ duration: 0.6, type: "spring", bounce: 0.3 }}
           className="flex flex-col h-screen w-full bg-[var(--bg-base)] overflow-hidden transition-colors selection:bg-brand-500/30 font-sans"
         >
           {/* Note: Header removed from layout, embedded in Welcome/Sidebar/Main Area logic */}

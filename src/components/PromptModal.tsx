@@ -68,7 +68,7 @@ export default function PromptModal({ prompt, onClose, onSave }: PromptModalProp
             {prompt ? t.editPrompt : t.newPrompt}
           </h2>
           <motion.button 
-            whileHover={{ scale: 1.1, rotate: 90 }}
+            whileHover={{ scale: 1.1, rotate: 90, transition: { type: "spring", stiffness: 200, damping: 15 } }}
             whileTap={{ scale: 0.9 }}
             type="button" 
             onClick={onClose} 
