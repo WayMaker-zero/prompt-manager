@@ -14,6 +14,11 @@ A beautiful, local-first web application designed to help you organize and manag
 
 ## English Documentation
 
+### Quick Start
+You don't need to install or run anything locally. Simply visit the live website to start managing your prompts:
+
+👉 **[Launch AI Prompt Manager](https://waymaker-zero.github.io/prompt-manager/)**
+
 ### The Philosophy
 In the era of AI agents, not every prompt needs to be engineered into a complex "Skill" or automated workflow. Many times, we just have simple, highly effective templates that we use every single day. **This project was born precisely for this reason: to provide a proper, dedicated home for these everyday essential prompts.**
 
@@ -32,16 +37,14 @@ Your data never leaves your computer. The app uses your browser's File System Ac
 - 💾 **Local Storage:** Your prompts are saved as a transparent `.json` file wherever you want.
 - 🌍 **Bilingual:** Native English and Simplified Chinese support.
 
-### How to use
-1. Make sure you have Node.js installed.
-2. Clone or open this folder in terminal.
-3. Run `npm install`
-4. Run `npm run dev`
-5. Open `http://localhost:3006` in your browser.
-
 ---
 
 ## 中文说明
+
+### 快速开始
+你不需要在本地安装或运行任何代码。直接点击下方链接即可开始使用：
+
+👉 **[立即打开 提示词管家](https://waymaker-zero.github.io/prompt-manager/)**
 
 ### 初衷与理念
 在各类 AI Agent 大行其道的今天，**有些提示词可能并不至于上升到编写成一个复杂 “Skill”（技能/工作流）的级别，但它们在日常工作中却极为常用。** 这正是本项目诞生的原因——为这些高频使用的、简单却不可或缺的提示词，提供一个妥善保存和随时调用的“家”。
@@ -61,9 +64,3 @@ Your data never leaves your computer. The app uses your browser's File System Ac
 - 💾 **纯本地保存**：你的心血提示词会以 `.json` 文件的形式保存在你指定的任意位置，安全可控。
 - 🌍 **原生双语**：自带中英双语，并可一键无缝切换。
 
-### 运行指南
-1. 请确保你的电脑安装了 Node.js。
-2. 在终端（Terminal）中打开这个文件夹。
-3. 运行命令 `npm install` 下载依赖。
-4. 运行命令 `npm run dev` 启动。
-5. 在浏览器中打开 `http://localhost:3006` 开始体验！
