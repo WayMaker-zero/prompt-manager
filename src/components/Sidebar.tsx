@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import type { Category } from '../types';
-import { Folder, Plus, LogOut, Trash2 } from 'lucide-react';
+import { Folder, FolderOpen, Plus, LogOut, Trash2 } from 'lucide-react';
 import CategoryModal from './CategoryModal';
+import { useI18n } from '../contexts/I18nContext';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface SidebarProps {
   categories: Category[];
@@ -10,7 +12,6 @@ interface SidebarProps {
   onAddCategory: (name: string) => void;
   onDeleteCategory: (id: string) => void;
   onDisconnect: () => void;
-  fileName?: string;
 }
 
 export default function Sidebar({
@@ -20,79 +21,107 @@ export default function Sidebar({
   onAddCategory,
   onDeleteCategory,
   onDisconnect,
-  fileName
 }: SidebarProps) {
   const [isAdding, setIsAdding] = useState(false);
+  const { t } = useI18n();
 
   return (
-    <div className="w-64 bg-gray-50 border-r flex flex-col h-full shrink-0">
-      <div className="p-4 border-b">
-        <h2 className="font-bold text-lg text-gray-800 flex items-center gap-2">
-          <Folder className="w-5 h-5 text-blue-500" />
-          Categories
+    <div className="w-[280px] bg-white/40 dark:bg-slate-900/40 backdrop-blur-3xl border-r border-slate-200/60 dark:border-slate-800/60 flex flex-col h-full shrink-0 relative z-20">
+      <div className="p-5 flex items-center justify-between">
+        <h2 className="font-extrabold text-xs uppercase tracking-widest text-slate-400 dark:text-slate-500">
+          {t.categories}
         </h2>
-        {fileName && (
-          <p className="text-xs text-gray-500 truncate mt-2" title={fileName}>
-            📄 {fileName}
-          </p>
+        <motion.button
+          whileHover={{ scale: 1.1, rotate: 90 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={() => setIsAdding(true)}
+          className="text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 bg-slate-100/50 dark:bg-slate-800/50 hover:bg-brand-50 dark:hover:bg-brand-900/30 p-1.5 rounded-lg transition-colors shadow-sm"
+          title={t.newCategory}
+        >
+          <Plus className="w-4 h-4" />
+        </motion.button>
+      </div>
+
+      <div className="flex-1 overflow-y-auto px-3 space-y-1 pb-4 custom-scrollbar">
+        {categories.length === 0 ? (
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-sm text-slate-400 text-center py-10 font-medium">
+            {t.emptySidebar}
+          </motion.p>
+        ) : (
+          categories.map((c) => {
+            const isSelected = selectedCategoryId === c.id;
+            return (
+              <div key={c.id} className="relative group">
+                {isSelected && (
+                  <motion.div
+                    layoutId="activeCategory"
+                    className="absolute inset-0 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700/50"
+                    initial={false}
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  />
+                )}
+                
+                <div
+                  onClick={() => onSelect(c.id)}
+                  className={`relative flex items-center justify-between px-4 py-3 cursor-pointer z-10 rounded-2xl transition-colors ${
+                    isSelected
+                      ? 'text-brand-700 dark:text-brand-300 font-bold'
+                      : 'text-slate-600 dark:text-slate-400 font-semibold hover:bg-white/50 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-slate-200'
+                  }`}
+                >
+                  <div className="flex items-center space-x-3 overflow-hidden">
+                    {isSelected ? (
+                      <FolderOpen className="w-4 h-4 text-brand-500 shrink-0" />
+                    ) : (
+                      <Folder className="w-4 h-4 opacity-60 shrink-0 group-hover:opacity-100 group-hover:text-brand-500 transition-all" />
+                    )}
+                    <span className="text-[14px] truncate tracking-tight">{c.name}</span>
+                  </div>
+                  
+                  {categories.length > 1 && (
+                    <motion.button
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onDeleteCategory(c.id);
+                      }}
+                      className="opacity-0 group-hover:opacity-100 text-slate-300 hover:text-red-500 dark:text-slate-600 dark:hover:text-red-400 transition-all ml-2"
+                      title={t.deleteCategory}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </motion.button>
+                  )}
+                </div>
+              </div>
+            );
+          })
         )}
       </div>
 
-      <div className="flex-1 overflow-y-auto p-3 space-y-1">
-        {categories.map((c) => (
-          <div
-            key={c.id}
-            onClick={() => onSelect(c.id)}
-            className={`group flex items-center justify-between px-3 py-2.5 rounded-lg cursor-pointer transition ${
-              selectedCategoryId === c.id
-                ? 'bg-blue-100 text-blue-700 font-medium'
-                : 'hover:bg-gray-200 text-gray-700'
-            }`}
-          >
-            <span className="text-sm truncate pr-2">{c.name}</span>
-            {categories.length > 1 && (
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onDeleteCategory(c.id);
-                }}
-                className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500 transition"
-                title="Delete Category"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
-            )}
-          </div>
-        ))}
-
-        <button
-          onClick={() => setIsAdding(true)}
-          className="w-full flex items-center space-x-2 px-3 py-2.5 text-sm font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-200 rounded-lg transition mt-4 border border-dashed border-gray-300"
-        >
-          <Plus className="w-4 h-4" />
-          <span>New Category</span>
-        </button>
-      </div>
-
-      <div className="p-4 border-t">
-        <button
+      <div className="p-4 border-t border-slate-200/60 dark:border-slate-800/60 bg-slate-50/50 dark:bg-slate-900/50">
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
           onClick={onDisconnect}
-          className="w-full flex items-center justify-center space-x-2 text-sm text-gray-500 hover:text-red-600 transition p-2 rounded-lg hover:bg-red-50"
+          className="w-full flex items-center justify-center space-x-2 text-sm font-bold text-slate-500 hover:text-red-600 dark:text-slate-400 dark:hover:text-red-400 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3 rounded-2xl hover:bg-red-50 dark:hover:bg-red-900/20 hover:border-red-200 dark:hover:border-red-800/50 transition-colors shadow-sm"
         >
           <LogOut className="w-4 h-4" />
-          <span>Disconnect File</span>
-        </button>
+          <span>{t.disconnect}</span>
+        </motion.button>
       </div>
 
-      {isAdding && (
-        <CategoryModal
-          onClose={() => setIsAdding(false)}
-          onSave={(name) => {
-            onAddCategory(name);
-            setIsAdding(false);
-          }}
-        />
-      )}
+      <AnimatePresence>
+        {isAdding && (
+          <CategoryModal
+            onClose={() => setIsAdding(false)}
+            onSave={(name) => {
+              onAddCategory(name);
+              setIsAdding(false);
+            }}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
