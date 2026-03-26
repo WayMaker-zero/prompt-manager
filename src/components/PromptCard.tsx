@@ -16,6 +16,7 @@ interface PromptCardProps {
 export default function PromptCard({ prompt, onEdit, onDelete }: PromptCardProps) {
   const [varValues, setVarValues] = useState<Record<string, string>>({});
   const [copied, setCopied] = useState(false);
+  
   const { t } = useI18n();
 
   const parsedContent = useMemo(() => {
@@ -58,25 +59,25 @@ export default function PromptCard({ prompt, onEdit, onDelete }: PromptCardProps
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-      className="bg-white dark:bg-slate-900/80 rounded-[2.5rem] shadow-xl shadow-slate-200/50 dark:shadow-slate-900/50 border border-slate-100 dark:border-slate-800 flex flex-col h-[400px] transition-all duration-300 relative group overflow-hidden hover:shadow-2xl hover:shadow-brand-500/10 dark:hover:shadow-brand-500/10 hover:-translate-y-1"
+      className="bg-white dark:bg-slate-900/80 rounded-[2.5rem] shadow-xl shadow-slate-200/50 dark:shadow-slate-900/50 border border-slate-100 dark:border-slate-800/80 flex flex-col h-[400px] transition-all duration-300 relative group overflow-hidden hover:shadow-2xl hover:shadow-brand-500/10 dark:hover:shadow-brand-500/10 hover:-translate-y-1"
     >
       {/* Top Header Section */}
-      <div className="flex justify-between items-start px-8 pt-8 pb-4 gap-4 z-10 shrink-0">
+      <div className="flex justify-between items-start px-8 pt-8 pb-4 gap-4 z-10 shrink-0 relative">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-2 min-h-[20px]">
             {hasVariables && (
-              <span className="bg-brand-100 dark:bg-brand-900/30 text-brand-600 dark:text-brand-400 text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-lg">
+              <span className="bg-brand-100 dark:bg-brand-900/40 text-brand-600 dark:text-brand-300 text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-lg">
                 Interactive
               </span>
             )}
           </div>
-          <h3 className="font-extrabold text-xl text-slate-900 dark:text-slate-50 line-clamp-2 leading-snug tracking-tight">
+          <h3 className="font-extrabold text-xl text-slate-900 dark:text-slate-100 line-clamp-2 leading-snug tracking-tight pr-12">
             {prompt.title}
           </h3>
         </div>
         
         {/* Subtle edit controls that appear on hover */}
-        <div className="flex gap-1 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 mt-6 bg-slate-50 dark:bg-slate-800/80 rounded-2xl p-1.5 border border-slate-100 dark:border-slate-700/50">
+        <div className="absolute right-6 top-8 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-2xl p-1.5 border border-slate-100 dark:border-slate-700/50 shadow-sm">
           <motion.button
             whileHover={{ scale: 1.1, backgroundColor: 'var(--color-brand-100)' }}
             whileTap={{ scale: 0.9 }}
@@ -121,7 +122,7 @@ export default function PromptCard({ prompt, onEdit, onDelete }: PromptCardProps
       </div>
       
       {/* Bottom Dock / Action Bar */}
-      <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-white via-white/95 to-transparent dark:from-slate-900 dark:via-slate-900/95 dark:to-transparent z-10 pt-16 pointer-events-none flex justify-center items-end">
+      <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-white via-white/95 to-transparent dark:from-slate-900/95 dark:via-slate-900/90 dark:to-transparent z-10 pt-16 pointer-events-none flex justify-center items-end">
         <motion.button
           whileHover={{ scale: 1.05, y: -2 }}
           whileTap={{ scale: 0.95 }}
@@ -130,8 +131,8 @@ export default function PromptCard({ prompt, onEdit, onDelete }: PromptCardProps
             clsx(
               "pointer-events-auto flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-full font-bold transition-all duration-300 text-[14px] shadow-xl border backdrop-blur-md",
               copied
-                ? "bg-emerald-500 text-white shadow-emerald-500/20 border-emerald-400 dark:border-emerald-600"
-                : "bg-slate-900/95 text-white hover:bg-black dark:bg-white/95 dark:text-slate-900 dark:hover:bg-white border-transparent dark:border-slate-200/50"
+                ? "bg-emerald-500 text-white shadow-emerald-500/20 border-emerald-400 dark:bg-emerald-600 dark:border-emerald-500"
+                : "bg-slate-900/95 text-white hover:bg-black dark:bg-slate-800/80 dark:text-slate-200 dark:hover:bg-slate-700/90 dark:border-slate-700 dark:hover:border-slate-600 border-transparent dark:shadow-slate-900/50"
             )
           )}
         >
