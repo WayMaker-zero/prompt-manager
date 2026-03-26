@@ -66,6 +66,7 @@ export default function PromptCard({ prompt, onEdit, onDelete }: PromptCardProps
           <motion.button
             whileHover={{ scale: 1.1, backgroundColor: 'var(--color-brand-100)' }}
             whileTap={{ scale: 0.9 }}
+            transition={{ type: "tween", duration: 0.2 }}
             onClick={onEdit}
             className="p-2 text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 dark:hover:bg-slate-700 rounded-xl transition-colors shadow-sm"
             title={t.edit}
@@ -75,6 +76,7 @@ export default function PromptCard({ prompt, onEdit, onDelete }: PromptCardProps
           <motion.button
             whileHover={{ scale: 1.1, backgroundColor: '#fee2e2' }}
             whileTap={{ scale: 0.9 }}
+            transition={{ type: "tween", duration: 0.2 }}
             onClick={onDelete}
             className="p-2 text-slate-400 hover:text-red-600 dark:hover:text-red-400 dark:hover:bg-slate-700 rounded-xl transition-colors shadow-sm"
             title={t.delete}
@@ -114,10 +116,10 @@ export default function PromptCard({ prompt, onEdit, onDelete }: PromptCardProps
         onClick={handleCopy}
         className={twMerge(
           clsx(
-            "w-full flex items-center justify-center space-x-3 py-4 rounded-[1.25rem] font-bold transition-all duration-300 text-[15px] border-2",
+            "w-full flex items-center justify-center space-x-3 py-4 rounded-[1.25rem] font-bold transition-colors duration-300 text-[15px] border-2",
             copied
               ? "bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800/50"
-              : "bg-slate-900 text-white border-transparent hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 shadow-xl shadow-slate-900/10 dark:shadow-white/10"
+              : "bg-slate-900 text-white border-transparent hover:bg-slate-800 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700 shadow-xl shadow-slate-900/10 dark:shadow-none"
           )
         )}
       >

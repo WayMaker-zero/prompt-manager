@@ -26,7 +26,7 @@ export default function MainArea({ category, onUpdateCategory }: MainAreaProps) 
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={toggleLang}
-        className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 bg-white/50 dark:bg-slate-800/50 backdrop-blur-md shadow-sm border border-slate-200/50 dark:border-slate-700/50 hover:bg-white dark:hover:bg-slate-800 transition-all"
+        className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 bg-white/50 dark:bg-slate-800/50 backdrop-blur-md shadow-sm border border-slate-200/50 dark:border-slate-700/50 hover:bg-white dark:hover:bg-slate-800 transition-colors"
       >
         <Languages className="w-4 h-4" />
         <span>{lang === 'zh' ? 'EN' : '中文'}</span>
@@ -35,7 +35,7 @@ export default function MainArea({ category, onUpdateCategory }: MainAreaProps) 
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={toggleTheme}
-        className="p-2 rounded-xl text-slate-700 dark:text-slate-200 bg-white/50 dark:bg-slate-800/50 backdrop-blur-md shadow-sm border border-slate-200/50 dark:border-slate-700/50 hover:bg-white dark:hover:bg-slate-800 transition-all"
+        className="p-2 rounded-xl text-slate-700 dark:text-slate-200 bg-white/50 dark:bg-slate-800/50 backdrop-blur-md shadow-sm border border-slate-200/50 dark:border-slate-700/50 hover:bg-white dark:hover:bg-slate-800 transition-colors"
       >
         {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
       </motion.button>
@@ -114,7 +114,7 @@ export default function MainArea({ category, onUpdateCategory }: MainAreaProps) 
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             onClick={() => setIsCreating(true)}
-            className="flex items-center space-x-2 bg-slate-900 hover:bg-black dark:bg-white dark:hover:bg-slate-200 text-white dark:text-slate-900 px-6 py-3 rounded-2xl shadow-xl shadow-slate-900/10 dark:shadow-white/10 font-bold tracking-wide transition-all"
+            className="flex items-center space-x-2 bg-brand-600 hover:bg-brand-700 dark:bg-brand-600 text-white dark:hover:bg-brand-500 px-6 py-3 rounded-2xl shadow-xl shadow-brand-600/20 font-bold tracking-wide transition-colors"
           >
             <Plus className="w-5 h-5 opacity-80" strokeWidth={2.5} />
             <span>{t.addPrompt}</span>
