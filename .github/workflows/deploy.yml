@@ -1,0 +1,60 @@
+name: Deploy Prompt Manager to GitHub Pages
+
+on:
+  push:
+    branches: ['main', 'master']
+    paths:
+      - 'prompt-manager/**'
+      - '.github/workflows/deploy.yml'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    
+    # Optional: if prompt-manager is inside a monorepo, define defaults
+    defaults:
+      run:
+        working-directory: ./prompt-manager
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          # We might need to handle cache path differently if in a subfolder
+          cache: 'npm'
+          cache-dependency-path: './prompt-manager/package-lock.json'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Build
+        run: npm run build
+        
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+        
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Important: target the build output dir relative to the workspace root
+          path: './prompt-manager/dist'
+          
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
