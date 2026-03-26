@@ -58,7 +58,7 @@
 
 /* Beautiful dynamic variable input */
 .prompt-variable-input {
-  @apply bg-brand-100/50 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300 font-semibold px-2 py-0.5 rounded shadow-sm focus:ring-2 focus:ring-brand-500/50 outline-none transition-all duration-300 placeholder:text-brand-500/40 dark:placeholder:text-brand-400/30 placeholder:font-normal inline-block text-center min-w-[3ch] max-w-full;
+  @apply bg-brand-100/50 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300 font-bold px-2 py-0.5 rounded-lg shadow-sm border-b-2 border-brand-300 dark:border-brand-600/50 focus:border-brand-600 dark:focus:border-brand-400 focus:bg-brand-100 dark:focus:bg-brand-900/60 focus:ring-0 outline-none transition-all duration-300 placeholder:text-brand-500/40 dark:placeholder:text-brand-400/30 placeholder:font-normal inline-block text-center min-w-[4ch] max-w-[200px];
   /* Hide text overflow elegantly */
   text-overflow: ellipsis;
 }
@@ -82,5 +82,3 @@
 
 .animation-delay-2000 { animation-delay: 2s; }
 .animation-delay-4000 { animation-delay: 4s; }
-
-.blob { animation: blob 7s infinite; }
