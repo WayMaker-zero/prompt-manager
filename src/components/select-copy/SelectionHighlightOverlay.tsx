@@ -1,21 +1,26 @@
 import { createPortal } from 'react-dom';
-import type { ViewportRect } from '../../utils/selection/getSelectionRects';
+import type { ZoneLocalRect } from '../../utils/selection/toZoneLocalRects';
 
 interface SelectionHighlightOverlayProps {
-  rects: readonly ViewportRect[];
+  zone: HTMLElement;
+  rects: readonly ZoneLocalRect[];
 }
 
 /**
- * Custom selection highlight layer (plan B). Does not affect resting content styles.
+ * Selection highlight painted inside the active copy zone so it shares
+ * the zone's (and ancestors') CSS transforms / layout movement.
  */
-export default function SelectionHighlightOverlay({ rects }: SelectionHighlightOverlayProps) {
-  if (rects.length === 0 || typeof document === 'undefined') return null;
+export default function SelectionHighlightOverlay({
+  zone,
+  rects,
+}: SelectionHighlightOverlayProps) {
+  if (rects.length === 0) return null;
 
   return createPortal(
     <div
       aria-hidden
-      className="pointer-events-none fixed inset-0 z-[200]"
       data-select-copy-overlay=""
+      className="pointer-events-none absolute left-0 top-0 z-[5] h-0 w-0 overflow-visible"
     >
       {rects.map((rect, index) => (
         <div
@@ -30,6 +35,6 @@ export default function SelectionHighlightOverlay({ rects }: SelectionHighlightO
         />
       ))}
     </div>,
-    document.body
+    zone
   );
 }

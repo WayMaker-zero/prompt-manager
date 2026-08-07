@@ -81,7 +81,7 @@ export default function PromptModal({ prompt, onClose, onSave }: PromptModalProp
 
         <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
           <div
-            className="space-y-8 flex-1 overflow-y-auto pr-4 pb-4 custom-scrollbar"
+            className="relative space-y-8 flex-1 overflow-y-auto pr-4 pb-4 custom-scrollbar"
             data-select-copy-zone="modal"
           >
             <div>

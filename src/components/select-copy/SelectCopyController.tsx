@@ -2,39 +2,69 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { useI18n } from '../../contexts/I18nContext';
 import { useSettings } from '../../contexts/SettingsContext';
-import { getSelectionRects, type ViewportRect } from '../../utils/selection/getSelectionRects';
-import { isSelectionInCopyZone } from '../../utils/selection/isRangeInCopyZone';
+import { getSelectionRects } from '../../utils/selection/getSelectionRects';
+import {
+  getActiveCopyZone,
+  isSelectionInCopyZone,
+} from '../../utils/selection/isRangeInCopyZone';
 import { hasMeaningfulText, serializeSelection } from '../../utils/selection/serializeSelection';
+import {
+  toZoneLocalRects,
+  type ZoneLocalRect,
+} from '../../utils/selection/toZoneLocalRects';
 import SelectionHighlightOverlay from './SelectionHighlightOverlay';
 
 const DEDUPE_MS = 800;
 
+type HighlightState = {
+  zone: HTMLElement;
+  rects: ZoneLocalRect[];
+};
+
 /**
- * App-wide controller: when select-to-copy is on, highlight selection and
- * copy on mouseup / shift-selection keyup.
+ * App-wide controller: when select-to-copy is on, highlight selection (in-zone)
+ * and copy on mouseup / shift-selection keyup.
  */
 export default function SelectCopyController() {
   const { selectToCopyEnabled } = useSettings();
   const { t } = useI18n();
-  const [rects, setRects] = useState<ViewportRect[]>([]);
+  const [highlight, setHighlight] = useState<HighlightState | null>(null);
   const lastCopiedRef = useRef<{ text: string; at: number }>({ text: '', at: 0 });
   const rafRef = useRef<number | null>(null);
+  const observedZoneRef = useRef<HTMLElement | null>(null);
+  const resizeObserverRef = useRef<ResizeObserver | null>(null);
 
-  const refreshRects = useCallback(() => {
+  const clearHighlight = useCallback(() => {
+    setHighlight(null);
+  }, []);
+
+  const refreshHighlight = useCallback(() => {
     if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
     rafRef.current = requestAnimationFrame(() => {
       rafRef.current = null;
       const selection = window.getSelection();
       if (!isSelectionInCopyZone(selection)) {
-        setRects([]);
+        setHighlight(null);
         return;
       }
-      setRects(getSelectionRects(selection));
-    });
-  }, []);
 
-  const clearRects = useCallback(() => {
-    setRects([]);
+      const zone = getActiveCopyZone(selection);
+      if (!zone) {
+        setHighlight(null);
+        return;
+      }
+
+      const viewportRects = getSelectionRects(selection);
+      if (viewportRects.length === 0) {
+        setHighlight(null);
+        return;
+      }
+
+      setHighlight({
+        zone,
+        rects: toZoneLocalRects(zone, viewportRects),
+      });
+    });
   }, []);
 
   const tryCopy = useCallback(async () => {
@@ -61,38 +91,67 @@ export default function SelectCopyController() {
     }
   }, [t.copiedSelection, t.copyFailed]);
 
+  // Keep ResizeObserver attached to the active zone
   useEffect(() => {
     if (!selectToCopyEnabled) {
-      clearRects();
+      resizeObserverRef.current?.disconnect();
+      observedZoneRef.current = null;
+      return;
+    }
+
+    const zone = highlight?.zone ?? null;
+    if (zone === observedZoneRef.current) return;
+
+    resizeObserverRef.current?.disconnect();
+    observedZoneRef.current = zone;
+
+    if (!zone) return;
+
+    const ro = new ResizeObserver(() => {
+      refreshHighlight();
+    });
+    ro.observe(zone);
+    resizeObserverRef.current = ro;
+
+    return () => {
+      ro.disconnect();
+      if (observedZoneRef.current === zone) {
+        observedZoneRef.current = null;
+      }
+    };
+  }, [selectToCopyEnabled, highlight?.zone, refreshHighlight]);
+
+  useEffect(() => {
+    if (!selectToCopyEnabled) {
+      clearHighlight();
       return;
     }
 
     const onSelectionChange = () => {
-      refreshRects();
+      refreshHighlight();
     };
 
     const onMouseUp = (event: MouseEvent) => {
       if (event.button !== 0) return;
-      // Defer so the browser finalizes the selection
       requestAnimationFrame(() => {
         void tryCopy();
-        refreshRects();
+        refreshHighlight();
       });
     };
 
     const onKeyUp = (event: KeyboardEvent) => {
       if (event.shiftKey || event.key === 'Shift') {
         void tryCopy();
-        refreshRects();
+        refreshHighlight();
       }
     };
 
     const onScrollOrResize = () => {
-      refreshRects();
+      refreshHighlight();
     };
 
     const onSelect = () => {
-      refreshRects();
+      refreshHighlight();
     };
 
     document.addEventListener('selectionchange', onSelectionChange);
@@ -102,7 +161,7 @@ export default function SelectCopyController() {
     window.addEventListener('scroll', onScrollOrResize, true);
     window.addEventListener('resize', onScrollOrResize);
 
-    refreshRects();
+    refreshHighlight();
 
     return () => {
       document.removeEventListener('selectionchange', onSelectionChange);
@@ -112,11 +171,13 @@ export default function SelectCopyController() {
       window.removeEventListener('scroll', onScrollOrResize, true);
       window.removeEventListener('resize', onScrollOrResize);
       if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
-      clearRects();
+      clearHighlight();
     };
-  }, [selectToCopyEnabled, tryCopy, refreshRects, clearRects]);
+  }, [selectToCopyEnabled, tryCopy, refreshHighlight, clearHighlight]);
 
-  if (!selectToCopyEnabled) return null;
+  if (!selectToCopyEnabled || !highlight) return null;
 
-  return <SelectionHighlightOverlay rects={rects} />;
+  return (
+    <SelectionHighlightOverlay zone={highlight.zone} rects={highlight.rects} />
+  );
 }
