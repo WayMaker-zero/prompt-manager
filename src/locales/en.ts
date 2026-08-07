@@ -37,4 +37,9 @@ export default {
   emptySidebar: 'No categories',
   promptCount: 'prompt',
   promptsCount: 'prompts',
+  settings: 'Settings',
+  selectToCopy: 'Select to copy',
+  selectToCopyHint: 'Auto-copy when you select prompt text',
+  copiedSelection: 'Selection copied',
+  copyFailed: 'Copy failed',
 };

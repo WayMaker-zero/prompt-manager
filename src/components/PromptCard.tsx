@@ -99,8 +99,12 @@ export default function PromptCard({ prompt, onEdit, onDelete }: PromptCardProps
         </div>
       </div>
 
-      {/* Main Content Area */}
-      <div className="flex-1 px-8 pb-8 text-[15px] text-slate-600 dark:text-slate-300 leading-relaxed font-sans overflow-y-auto custom-scrollbar relative z-0">
+      {/* Main Content Area — select-to-copy zone (data attrs only; no visual change) */}
+      <div
+        className="flex-1 px-8 pb-8 text-[15px] text-slate-600 dark:text-slate-300 leading-relaxed font-sans overflow-y-auto custom-scrollbar relative z-0"
+        data-select-copy-zone="card"
+        data-select-copy-id={prompt.id}
+      >
         <p className="whitespace-pre-wrap leading-8 pb-20">
           {parsedContent.map((part) => {
             if (part.type === 'var') {
@@ -112,6 +116,8 @@ export default function PromptCard({ prompt, onEdit, onDelete }: PromptCardProps
                     value={varValues[part.value] || ''}
                     onChange={(e) => handleVarChange(part.value, e.target.value)}
                     className="prompt-variable-input shadow-sm"
+                    data-select-copy-part="var"
+                    data-var-name={part.value}
                   />
                 </span>
               );

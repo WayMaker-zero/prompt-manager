@@ -15,6 +15,8 @@ import WelcomeScreen from './components/WelcomeScreen';
 import { v4 as uuidv4 } from 'uuid';
 import { I18nProvider } from './contexts/I18nContext';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { SettingsProvider } from './contexts/SettingsContext';
+import SelectCopyController from './components/select-copy/SelectCopyController';
 import { Toaster, toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -181,6 +183,7 @@ function AppContent() {
                 syncData(newData);
               }}
             />
+            <SelectCopyController />
           </div>
         </motion.div>
       )}
@@ -192,13 +195,15 @@ function App() {
   return (
     <I18nProvider>
       <ThemeProvider>
-        <Toaster 
-          position="bottom-right" 
-          toastOptions={{
-            className: 'font-sans font-medium rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-xl',
-          }}
-        />
-        <AppContent />
+        <SettingsProvider>
+          <Toaster 
+            position="bottom-right" 
+            toastOptions={{
+              className: 'font-sans font-medium rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-xl',
+            }}
+          />
+          <AppContent />
+        </SettingsProvider>
       </ThemeProvider>
     </I18nProvider>
   );

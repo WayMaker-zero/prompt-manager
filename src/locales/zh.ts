@@ -37,4 +37,9 @@ export default {
   emptySidebar: '暂无分类',
   promptCount: '个提示词',
   promptsCount: '个提示词',
+  settings: '设置',
+  selectToCopy: '选中即复制',
+  selectToCopyHint: '选中提示词文本后自动复制',
+  copiedSelection: '已复制选中文本',
+  copyFailed: '复制失败',
 };

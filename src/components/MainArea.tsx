@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useI18n } from '../contexts/I18nContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { motion, AnimatePresence } from 'framer-motion';
+import SettingsPopover from './SettingsPopover';
 
 interface MainAreaProps {
   category?: Category;
@@ -21,7 +22,8 @@ export default function MainArea({ category, onUpdateCategory }: MainAreaProps) 
 
   // Top Right Actions Component
   const TopActions = () => (
-    <div className="flex gap-3">
+    <div className="flex gap-3 items-center">
+      <SettingsPopover />
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
