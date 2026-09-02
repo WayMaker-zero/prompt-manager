@@ -13,20 +13,17 @@ export function findCopyZone(node: Node | null): HTMLElement | null {
   return el.closest(ZONE_SELECTOR) as HTMLElement | null;
 }
 
-function isTextControl(el: Element | null): el is HTMLInputElement | HTMLTextAreaElement {
-  if (!el) return false;
-  if (el instanceof HTMLTextAreaElement) return true;
-  if (el instanceof HTMLInputElement) {
-    const type = (el.type || 'text').toLowerCase();
-    return type === 'text' || type === 'search' || type === '';
-  }
-  return false;
+function isVarCopyInput(el: Element | null): el is HTMLInputElement {
+  if (!(el instanceof HTMLInputElement)) return false;
+  if (el.dataset.selectCopyPart !== 'var') return false;
+  const type = (el.type || 'text').toLowerCase();
+  return type === 'text' || type === 'search' || type === '';
 }
 
-/** Active text control with a non-empty caret range, inside a copy zone. */
-export function getActiveCopyZoneControl(): HTMLInputElement | HTMLTextAreaElement | null {
+/** Active variable input with a non-empty caret range, inside a copy zone. */
+export function getActiveCopyZoneControl(): HTMLInputElement | null {
   const active = document.activeElement;
-  if (!isTextControl(active)) return null;
+  if (!isVarCopyInput(active)) return null;
   if (!findCopyZone(active)) return null;
   const start = active.selectionStart;
   const end = active.selectionEnd;

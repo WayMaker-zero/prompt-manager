@@ -10,14 +10,10 @@ function variableDisplayValue(input: HTMLInputElement): string {
   return input.dataset.varName || input.placeholder || '';
 }
 
-function serializeFormControl(control: HTMLInputElement | HTMLTextAreaElement): string {
+function serializeVarInput(control: HTMLInputElement): string {
   const start = control.selectionStart ?? 0;
   const end = control.selectionEnd ?? 0;
-  const sliced = control.value.slice(Math.min(start, end), Math.max(start, end));
-  if (control instanceof HTMLInputElement && control.dataset.selectCopyPart === 'var') {
-    return sliced;
-  }
-  return stripVariableBraces(sliced);
+  return control.value.slice(Math.min(start, end), Math.max(start, end));
 }
 
 function rangesIntersect(a: Range, b: Range): boolean {
@@ -122,7 +118,7 @@ function serializeDomRange(range: Range, zone: HTMLElement): string {
 export function serializeSelection(selection: Selection | null): string | null {
   const control = getActiveCopyZoneControl();
   if (control) {
-    return serializeFormControl(control);
+    return serializeVarInput(control);
   }
 
   if (!selection || !isSelectionInCopyZone(selection)) return null;

@@ -61,8 +61,7 @@ html.select-to-copy-on [data-select-copy-zone] ::selection {
   background: transparent;
   color: inherit;
 }
-html.select-to-copy-on [data-select-copy-zone] input::selection,
-html.select-to-copy-on [data-select-copy-zone] textarea::selection {
+html.select-to-copy-on [data-select-copy-zone] input::selection {
   background: transparent;
   color: inherit;
 }

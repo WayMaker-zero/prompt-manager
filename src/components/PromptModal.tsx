@@ -80,10 +80,7 @@ export default function PromptModal({ prompt, onClose, onSave }: PromptModalProp
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
-          <div
-            className="relative space-y-8 flex-1 overflow-y-auto pr-4 pb-4 custom-scrollbar"
-            data-select-copy-zone="modal"
-          >
+          <div className="relative space-y-8 flex-1 overflow-y-auto pr-4 pb-4 custom-scrollbar">
             <div>
               <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3 tracking-wide">{t.title}</label>
               <input
@@ -93,7 +90,6 @@ export default function PromptModal({ prompt, onClose, onSave }: PromptModalProp
                 placeholder={t.title}
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                data-select-copy-part="title"
               />
             </div>
 
@@ -118,7 +114,6 @@ export default function PromptModal({ prompt, onClose, onSave }: PromptModalProp
                 placeholder={t.promptPlaceholder}
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                data-select-copy-part="content"
               />
               <p className="text-sm font-semibold text-slate-500 dark:text-slate-400 mt-4 flex items-center gap-2 bg-slate-50 dark:bg-slate-900 px-4 py-3 rounded-xl border border-slate-200/60 dark:border-slate-800/60">
                 <span className="bg-brand-100 dark:bg-brand-900/30 text-brand-600 p-1.5 rounded-lg shadow-sm">💡</span> {t.variableHelp}
